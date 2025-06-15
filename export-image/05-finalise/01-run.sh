@@ -3,7 +3,6 @@
 IMG_FILE="${STAGE_WORK_DIR}/${IMG_FILENAME}${IMG_SUFFIX}.img"
 INFO_FILE="${STAGE_WORK_DIR}/${IMG_FILENAME}${IMG_SUFFIX}.info"
 SBOM_FILE="${STAGE_WORK_DIR}/${IMG_FILENAME}${IMG_SUFFIX}.sbom"
-BMAP_FILE="${STAGE_WORK_DIR}/${IMG_FILENAME}${IMG_SUFFIX}.bmap"
 
 on_chroot << EOF
 update-initramfs -k all -c
@@ -60,6 +59,41 @@ find "${ROOTFS_DIR}/var/log/" -type f -exec cp /dev/null {} \;
 rm -f "${ROOTFS_DIR}/root/.vnc/private.key"
 rm -f "${ROOTFS_DIR}/etc/vnc/updateid"
 
+	cp files/rc.local "${ROOTFS_DIR}/etc/rc.local"
+
+	echo -n "Configuring Desktop: "
+	if [[ -d "${ROOTFS_DIR}/etc/wayfire" ]]; then
+               for d in "${ROOTFS_DIR}/home/"* ; do
+                       owner_id=$(stat -c '%u' "$d")
+                       mkdir -p "$d/.config"
+                       cp -rf files/user/.* "$d/" || echo "cp failed"
+                       chown -R $owner_id "$d/.config"
+               done
+                       echo "Done"
+
+	echo -n "Configuring Wayland Screen Rotation: "
+		echo '[output:DSI-1]' >> "${ROOTFS_DIR}/etc/wayfire/template.ini"
+		echo 'mode = 480x1280@60000' >> "${ROOTFS_DIR}/etc/wayfire/template.ini"
+		echo 'position = 0,0' >> "${ROOTFS_DIR}/etc/wayfire/template.ini"
+		echo 'transform = 270' >> "${ROOTFS_DIR}/etc/wayfire/template.ini"
+		echo '[input-device:wlr_virtual_pointer_v1]' >> "${ROOTFS_DIR}/etc/wayfire/template.ini"
+		echo 'output = DSI-1' >> "${ROOTFS_DIR}/etc/wayfire/template.ini"
+		sed -i '1 a wlr-randr --output DSI-1 --transform 270 &' "${ROOTFS_DIR}/etc/xdg/labwc-greeter/autostart"
+		sed -i '2 a wlr-randr --output DSI-2 --transform 270 &' "${ROOTFS_DIR}/etc/xdg/labwc-greeter/autostart"
+		echo "Done"
+	else
+			echo "Skipped"
+	fi
+
+
+	echo -n "Configuring X11 Screen Rotation: "
+	if [[ -d "${ROOTFS_DIR}/etc/X11" ]]; then
+		echo "xrandr --output DSI-1 --transform 270" > "${ROOTFS_DIR}/etc/X11/Xsession.d/100custom_xrandr"
+		echo "Done"
+	else
+		echo "Skipped"
+	fi
+
 update_issue "$(basename "${EXPORT_DIR}")"
 install -m 644 "${ROOTFS_DIR}/etc/rpi-issue" "${ROOTFS_DIR}/boot/firmware/issue.txt"
 if ! [ -L "${ROOTFS_DIR}/boot/issue.txt" ]; then
@@ -101,12 +135,6 @@ zerofree "${ROOT_DEV}"
 
 unmount_image "${IMG_FILE}"
 
-if hash bmaptool 2>/dev/null; then
-	bmaptool create \
-		-o "${BMAP_FILE}" \
-		"${IMG_FILE}"
-fi
-
 mkdir -p "${DEPLOY_DIR}"
 
 rm -f "${DEPLOY_DIR}/${ARCHIVE_FILENAME}${IMG_SUFFIX}.*"
@@ -133,9 +161,6 @@ none | *)
 esac
 
 if [ -f "${SBOM_FILE}" ]; then
-	xz -c "${SBOM_FILE}" > "$DEPLOY_DIR/$(basename "${SBOM_FILE}").xz"
-fi
-if [ -f "${BMAP_FILE}" ]; then
-	cp "$BMAP_FILE" "$DEPLOY_DIR/"
+	xz -c "${SBOM_FILE}" > "$DEPLOY_DIR/image_$(basename "${SBOM_FILE}").xz"
 fi
 cp "$INFO_FILE" "$DEPLOY_DIR/"

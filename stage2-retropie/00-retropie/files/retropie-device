@@ -1,0 +1,45 @@
+#!/bin/bash
+
+USER=$(stat -c %U /home/*)
+
+if [ "$#" -ne 1 ] ; then
+        echo "$0: devterm/uconsole"
+        exit 3
+fi
+
+function devterm-config {
+ sed -i 's/"720"/"480"/g' /opt/retropie/configs/all/retroarch.cfg
+ echo 'emulationstation --screenrotate 1 --screensize 1280 480 #auto' >> "/home/$USER/.profile"
+ sed -i 's/720/480/g' ~/.profile
+cat <<EOF > /etc/rc.local &&
+#!/bin/sh
+nohup /usr/sbin/thd --triggers /etc/triggerhappy/triggers.d/ --user '$USER' --deviceglob /dev/input/event* &
+exit 0
+EOF
+ chmod +x /etc/rc.local
+echo "done"
+
+}
+
+function uconsole-config {
+ sed -i 's/"480"/"720"/g' /opt/retropie/configs/all/retroarch.cfg
+ echo 'emulationstation --screenrotate 1 --screensize 1280 720 #auto' >> "/home/$USER/.profile"
+ sed -i 's/480/720/g' ~/.profile
+cat <<EOF > /etc/rc.local &&
+#!/bin/sh
+nohup /usr/sbin/thd --triggers /etc/triggerhappy/triggers.d/ --user '$USER' --deviceglob /dev/input/event* &
+exit 0
+EOF
+ chmod +x /etc/rc.local
+echo "done"
+
+}
+
+if [ $1 == "devterm" ]; then
+devterm-config;
+fi
+
+
+if [ $1 == "uconsole" ]; then
+uconsole-config;
+fi
