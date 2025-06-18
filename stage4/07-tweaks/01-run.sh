@@ -6,16 +6,18 @@
 
 	echo -n "Configuring system theme: "
 		mkdir -p "${ROOTFS_DIR}/etc/skel/.config"
+		mkdir -p "${ROOTFS_DIR}/etc/skel/.local"
 		mkdir -p "${ROOTFS_DIR}/var/lib/lightdm/.config/"
 	for d in "${ROOTFS_DIR}/home/"* ; do
 		cp -r files/user/.config/* "${ROOTFS_DIR}/etc/skel/.config/"
+		cp -r files/user/.local/* "${ROOTFS_DIR}/etc/skel/.local/"
 		cp -r files/user/.config/* "${ROOTFS_DIR}/var/lib/lightdm/.config/"
-		if [ ! -d "$d/.config/" ]; then
-		  echo "~/.config directory does not exist"
-		  mkdir -p $d/.config/
-		fi
+		mkdir -p $d/.config/
+		mkdir -p $d/.local/
 		cp -r files/user/.config/* "$d/.config/"
+		cp -r files/user/.local/* "$d/.local/"
 		chown -R 1000:1000 "$d/.config"
+		chown -R 1000:1000 "$d/.local"
 		chown -R 106:111 "${ROOTFS_DIR}/var/lib/lightdm/"
 	done
 		echo "Done"
@@ -37,3 +39,7 @@
 		echo 'gtk-icon-theme-name=PiXflat' >> "${ROOTFS_DIR}/etc/lightdm/pi-greeter.conf"
 		echo 'gtk-font-name=PibotoLt 12' >> "${ROOTFS_DIR}/etc/lightdm/pi-greeter.conf"
 		echo "Done"
+
+	
+	echo -n "Setting rc.local"
+		cp -rf files/rc.local "${ROOTFS_DIR}/etc/rc.local"

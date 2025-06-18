@@ -59,7 +59,6 @@ find "${ROOTFS_DIR}/var/log/" -type f -exec cp /dev/null {} \;
 rm -f "${ROOTFS_DIR}/root/.vnc/private.key"
 rm -f "${ROOTFS_DIR}/etc/vnc/updateid"
 
-	cp files/rc.local "${ROOTFS_DIR}/etc/rc.local"
 
 	echo -n "Configuring Desktop: "
 	if [[ -d "${ROOTFS_DIR}/etc/wayfire" ]]; then
@@ -68,6 +67,7 @@ rm -f "${ROOTFS_DIR}/etc/vnc/updateid"
                        mkdir -p "$d/.config"
                        cp -rf files/user/.* "$d/" || echo "cp failed"
                        chown -R $owner_id "$d/.config"
+		       chown -R $owner_id "$d/.local"
                done
                        echo "Done"
 
@@ -80,11 +80,20 @@ rm -f "${ROOTFS_DIR}/etc/vnc/updateid"
 		echo 'output = DSI-1' >> "${ROOTFS_DIR}/etc/wayfire/template.ini"
 		sed -i '1 a wlr-randr --output DSI-1 --transform 270 &' "${ROOTFS_DIR}/etc/xdg/labwc-greeter/autostart"
 		sed -i '2 a wlr-randr --output DSI-2 --transform 270 &' "${ROOTFS_DIR}/etc/xdg/labwc-greeter/autostart"
+		sed -i '1 a binding_light_up=KEY_BRIGHTNESSUP' "${ROOTFS_DIR}/etc/wayfire/template.ini"
+		sed -i '2 a command_light_up=rpi-backlight up' "${ROOTFS_DIR}/etc/wayfire/template.ini"
+		sed -i '3 a binding_light_down=KEY_BRIGHTNESSDOWN' "${ROOTFS_DIR}/etc/wayfire/template.ini"
+		sed -i '4 a command_light_down=rpi-backlight down' "${ROOTFS_DIR}/etc/wayfire/template.ini"
 		echo "Done"
 	else
 			echo "Skipped"
 	fi
 
+
+cat << EOF > ${ROOTFS_DIR}/etc/modprobe.d/blacklist-qmi.conf
+blacklist qmi_wwan
+blacklist cdc_wdm
+EOF
 
 	echo -n "Configuring X11 Screen Rotation: "
 	if [[ -d "${ROOTFS_DIR}/etc/X11" ]]; then
