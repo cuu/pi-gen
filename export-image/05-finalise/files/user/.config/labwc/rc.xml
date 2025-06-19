@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<openbox_config xmlns="http://openbox.org/3.4/rc">
+  <keyboard>
+    <keybind key="XF86_MonBrightnessUp">
+      <action name="Execute" command="rpi-backlight up" />
+    </keybind>
+    <keybind key="XF86_MonBrightnessDown">
+      <action name="Execute" command="rpi-backlight down" />
+    </keybind>
+  </keyboard>
+</openbox_config>
+
