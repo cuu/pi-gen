@@ -1,0 +1,11 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=0.1
+Type=Application
+Name=Sync backlight 
+Comment=sync devterm/uconsole backlight
+Exec=bash /usr/local/bin/rpi-backlight-check
+StartupNotify=true
+Terminal=false
+NoDisplay=true
+NotShowIn=GNOME;KDE;XFCE;

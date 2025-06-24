@@ -14,3 +14,5 @@ dtoverlay=dwc2,dr_mode=host
 dtparam=ant2
 dtparam=spi=on
 gpio=10=ip,np
+gpio=9=op,dh
+
