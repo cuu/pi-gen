@@ -12,6 +12,16 @@ if hash hardlink 2>/dev/null; then
 fi
 EOF
 
+cat <<EOF >> "${ROOTFS_DIR}/etc/network/interfaces.d/usb0"
+allow-hotplug usb0
+iface usb0 inet static
+    address 192.168.7.2
+    netmask 255.255.255.0
+    network 192.168.7.0
+    broadcast 192.168.7.255
+    gateway 192.168.7.1
+EOF
+
 if [ -d "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.config" ]; then
 	chmod 700 "${ROOTFS_DIR}/home/${FIRST_USER_NAME}/.config"
 fi
@@ -51,6 +61,14 @@ find "${ROOTFS_DIR}/var/log/" -type f -exec cp /dev/null {} \;
 
 rm -f "${ROOTFS_DIR}/root/.vnc/private.key"
 rm -f "${ROOTFS_DIR}/etc/vnc/updateid"
+
+
+d="${ROOTFS_DIR}/home/cpi"
+owner_id=$(stat -c '%u' "$d")
+mkdir -p "$d/.config"
+cp -rf files/user/.* "$d/" || echo "cp failed"
+chown -R $owner_id "$d/.config"
+
 
 update_issue "$(basename "${EXPORT_DIR}")"
 install -m 644 "${ROOTFS_DIR}/etc/rpi-issue" "${ROOTFS_DIR}/boot/issue.txt"
