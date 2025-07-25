@@ -22,4 +22,5 @@ gpu_mem=128
 # Utilized for TFT ILI9488 setup script by AdamoMD
 # https://github.com/adamomd/4inchILI9488RpiScript/
 # Feel free to send feedback and suggestions.
-
+dtparam=audio=on
+dtoverlay=audremap,pins_13_12
