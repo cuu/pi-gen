@@ -1,4 +1,5 @@
 dtparam=i2c_arm=on
+dtparam=i2c_arm_baudrate=10000
 dtoverlay=picocalc_kbd
 dtoverlay=i2c-rtc,pcf8563
 dtoverlay=dwc2

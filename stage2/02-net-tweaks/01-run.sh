@@ -2,6 +2,7 @@
 
 install -v -d					"${ROOTFS_DIR}/etc/wpa_supplicant"
 install -v -m 600 files/wpa_supplicant.conf	"${ROOTFS_DIR}/etc/wpa_supplicant/"
+install -v -m 777 files/99-ipv6.conf            "${ROOTFS_DIR}/etc/sysctl.d/"
 
 on_chroot << EOF
 	SUDO_USER="${FIRST_USER_NAME}" raspi-config nonint do_boot_wait 0

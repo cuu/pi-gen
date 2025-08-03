@@ -10,6 +10,9 @@ fi
 if hash hardlink 2>/dev/null; then
 	hardlink -t /usr/share/doc
 fi
+
+apt remove -y tracker tracker-miner-fs tracker-extract
+
 EOF
 
 cat <<EOF >> "${ROOTFS_DIR}/etc/network/interfaces.d/usb0"
@@ -68,6 +71,9 @@ owner_id=$(stat -c '%u' "$d")
 mkdir -p "$d/.config"
 cp -rf files/user/.* "$d/" || echo "cp failed"
 chown -R $owner_id "$d/.config"
+
+
+cp -rf files/dphys-swapfile "${ROOTFS_DIR}/etc/" || echo "cp dphys-swapfile failed"
 
 
 update_issue "$(basename "${EXPORT_DIR}")"
