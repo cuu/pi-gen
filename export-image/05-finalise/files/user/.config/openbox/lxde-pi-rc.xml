@@ -1,2 +1,28 @@
 <?xml version="1.0"?>
-<openbox_config><theme><font place="ActiveWindow"><name>PibotoLt</name><size>8</size><weight>Normal</weight><slant>Normal</slant></font><font place="InactiveWindow"><name>PibotoLt</name><size>8</size><weight>Normal</weight><slant>Normal</slant></font><invHandleWidth>10</invHandleWidth><titleColor>#87919B</titleColor><textColor>#F0F0F0</textColor></theme></openbox_config>
+<openbox_config>
+  <theme>
+    <font place="ActiveWindow">
+      <name>Terminus</name>
+      <size>8</size>
+      <weight>Normal</weight>
+      <slant>Normal</slant>
+    </font>
+    <font place="InactiveWindow">
+      <name>Terminus</name>
+      <size>8</size>
+      <weight>Normal</weight>
+      <slant>Normal</slant>
+    </font>
+    <invHandleWidth>10</invHandleWidth>
+    <titleColor>#87919B</titleColor>
+    <textColor>#F0F0F0</textColor>
+  </theme>
+  <keyboard>
+    <keybind key="XF86PowerOff">
+      <action name="Execute">
+        <command>xset dpms force off</command>
+      </action>
+    </keybind>
+  </keyboard>
+</openbox_config>
+

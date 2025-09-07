@@ -5,6 +5,8 @@ dtoverlay=i2c-rtc,pcf8563
 dtoverlay=dwc2
 dtparam=spi=on
 dtoverlay=spi0-0cs
+dtoverlay=spi1-1cs
+dtoverlay=mmc-spi1
 camera_auto_detect=1
 display_auto_detect=1
 #max_framebuffers=2 (line commented for TFT ILI9488 installation on 06/27/2025)

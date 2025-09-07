@@ -75,6 +75,27 @@ chown -R $owner_id "$d/.config"
 
 cp -rf files/dphys-swapfile "${ROOTFS_DIR}/etc/" || echo "cp dphys-swapfile failed"
 
+#rm -rf dphys-swapfile "${ROOTFS_DIR}/home/cpi"
+
+cp -rf files/x.pkla "${ROOTFS_DIR}/etc/polkit-1/localauthority/50-local.d/"
+
+cp -rf files/cursors "${ROOTFS_DIR}/usr/share/icons/PiXflat/"
+
+cp -rf files/chromium-browser.desktop  "${ROOTFS_DIR}/usr/share/applications/"
+
+
+on_chroot << EOF
+
+rm /home/cpi/dphys-swapfile
+rm /home/cpi/x.pkla
+rm -rf /home/cpi/cursors
+rm -rf /home/cpi/chromium-browser.desktop
+
+sed -i 's/^#\?HandlePowerKey=.*/HandlePowerKey=ignore/' /etc/systemd/logind.conf
+
+systemctl set-default multi-user.target
+
+EOF
 
 update_issue "$(basename "${EXPORT_DIR}")"
 install -m 644 "${ROOTFS_DIR}/etc/rpi-issue" "${ROOTFS_DIR}/boot/issue.txt"
