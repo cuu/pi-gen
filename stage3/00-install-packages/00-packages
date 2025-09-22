@@ -5,7 +5,6 @@ git
 policykit-1
 gvfs
 rfkill
-chromium-browser rpi-chromium-mods libwidevinecdm0
 gldriver-test
 fonts-droid-fallback
 fonts-liberation2
@@ -13,19 +12,4 @@ obconf
 arandr
 python3-pyqt5
 python3-opengl
-fonts-noto-cjk 
-xfonts-intl-chinese 
-xfonts-intl-chinese-big 
-fonts-noto-cjk-extra 
-fonts-arphic-ukai 
-fonts-arphic-uming 
-fonts-wqy-microhei 
-fonts-wqy-zenhei 
-xfonts-base 
-xfonts-75dpi 
-xfonts-100dpi 
-xfonts-wqy
-xterm
-fonts-takao-mincho
-fonts-terminus
-xfonts-terminus
+chromium-browser rpi-chromium-mods libwidevinecdm0

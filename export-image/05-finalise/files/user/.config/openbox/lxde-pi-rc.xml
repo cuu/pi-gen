@@ -20,7 +20,7 @@
   <keyboard>
     <keybind key="XF86PowerOff">
       <action name="Execute">
-        <command>xset dpms force off</command>
+        <command>/usr/bin/bash /usr/local/bin/toggle_dpms.sh</command>
       </action>
     </keybind>
   </keyboard>

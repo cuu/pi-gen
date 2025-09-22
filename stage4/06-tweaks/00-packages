@@ -1,4 +1,20 @@
 x11-apps
 retroarch
 libretro-*
-
+chromium-browser rpi-chromium-mods libwidevinecdm0
+xfonts-base
+xfonts-75dpi
+xfonts-100dpi
+xfonts-wqy
+xterm
+fonts-takao-mincho
+fonts-terminus
+xfonts-terminus
+fonts-noto-cjk
+xfonts-intl-chinese
+xfonts-intl-chinese-big
+fonts-noto-cjk-extra
+fonts-arphic-ukai
+fonts-arphic-uming
+fonts-wqy-microhei
+fonts-wqy-zenhei
