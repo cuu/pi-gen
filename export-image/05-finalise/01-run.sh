@@ -146,6 +146,9 @@ mkdir -p /usr/local/etc
 
 if [ -f "\$SYNC_FILE" ]; then
     VALUE=\$(cat "\$SYNC_FILE")
+    if [ "\$VALUE" -lt "30" ]; then
+      VALUE=30
+    fi
     echo "\$VALUE" > "\$BRIGHTNESS_PATH"
 else
 
@@ -163,6 +166,10 @@ SYNC_FILE="/usr/local/etc/sync_backlight"
 BRIGHTNESS_PATH="/sys/class/backlight/picocalc_lcd_backlight/actual_brightness"
 
 VALUE=\$(cat "\$BRIGHTNESS_PATH")
+
+if [ "\$VALUE" -lt "30" ]; then
+  VALUE=30
+fi
 
 echo "\$VALUE" > "\$SYNC_FILE"
 EOF
@@ -187,9 +194,11 @@ EOF
 
 chmod +x /usr/local/bin/toggle_dpms.sh
 
-tee /etc/motd <<'EOF'
+now_date=\$(date +"%Y-%m-%d")
+
+tee /etc/motd <<EOF
 PicoCalc Zero
-Image Version: v1.0 (Build 2025-09-22)
+Image Version: v1.0 (Build \$now_date)
 
 Default Login:
   Username: cpi
@@ -203,7 +212,7 @@ Mouse Mode:
     Key [ / ] act as left/right mouse buttons
 
 GUI Mode:
-  Run \`startx\` to launch the desktop environment.
+  Run "startx" to launch the desktop environment.
 
 Happy Hacking!
 clockworkpi.com

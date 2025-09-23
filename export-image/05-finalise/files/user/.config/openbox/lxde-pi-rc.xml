@@ -2,13 +2,13 @@
 <openbox_config>
   <theme>
     <font place="ActiveWindow">
-      <name>Terminus</name>
+      <name>Terminus Medium</name>
       <size>8</size>
       <weight>Normal</weight>
       <slant>Normal</slant>
     </font>
     <font place="InactiveWindow">
-      <name>Terminus</name>
+      <name>Terminus Medium</name>
       <size>8</size>
       <weight>Normal</weight>
       <slant>Normal</slant>
