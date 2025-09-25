@@ -9,11 +9,13 @@ while true; do
         if [[ "$BRIGHTNESS" -eq 0 ]]; then
             if [[ "$LAST_STATE" != "powersave" ]]; then
                 sudo cpufreq-set -g powersave
+                sudo systemctl stop  fbcp-ili9341.service
                 LAST_STATE="powersave"
             fi
         else
             if [[ "$LAST_STATE" != "ondemand" ]]; then
                 sudo cpufreq-set -g ondemand
+                sudo systemctl start  fbcp-ili9341.service
                 LAST_STATE="ondemand"
             fi
         fi

@@ -165,6 +165,8 @@ tee /usr/local/bin/save_backlight.sh <<'EOF'
 SYNC_FILE="/usr/local/etc/sync_backlight"
 BRIGHTNESS_PATH="/sys/class/backlight/picocalc_lcd_backlight/actual_brightness"
 
+sudo systemctl start  fbcp-ili9341.service
+
 VALUE=\$(cat "\$BRIGHTNESS_PATH")
 
 if [ "\$VALUE" -lt "30" ]; then
@@ -219,6 +221,10 @@ clockworkpi.com
 EOF
 
 sed -i 's/quiet splash/ /g' /boot/cmdline.txt
+
+mkfontscale
+mkfontdir
+fc-cache -fv
 
 EOF1
 

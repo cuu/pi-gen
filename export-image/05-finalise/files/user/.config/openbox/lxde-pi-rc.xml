@@ -23,6 +23,13 @@
         <command>/usr/bin/bash /usr/local/bin/toggle_dpms.sh</command>
       </action>
     </keybind>
+
+   <keybind key="C-A-t">
+      <action name="Execute">
+        <command>xterm</command>
+      </action>
+    </keybind>
+
   </keyboard>
 </openbox_config>
 
