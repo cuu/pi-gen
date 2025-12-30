@@ -1,1 +1,0 @@
-swayidle -w timeout 600 'wlopm --off \*' resume 'wlopm --on \*' &

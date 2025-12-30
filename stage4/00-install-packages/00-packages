@@ -3,13 +3,12 @@ python3-tk
 python3-pgzero
 python3-serial
 debian-reference-en dillo
-raspberrypi-net-mods raspberrypi-ui-mods
 python3-pip
 python3-numpy
 alacarte rc-gui
 tree
-libgl1-mesa-dri libgles1 libgles2-mesa xcompmgr
-python3-twython
+libgl1-mesa-dri libgles1 
+xcompmgr
 python3-flask
 pprompt
 piwiz
@@ -21,3 +20,9 @@ squeekboard
 
 # ninja-build and openocd needed for vscode pico extension
 meson openocd
+rpd-applications
+rpd-developer
+rpd-graphics
+rpd-utilities
+rpd-wayland-extras
+rpd-x-extras
